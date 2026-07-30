@@ -1,0 +1,7 @@
+# TodoToday – Cursor rules
+
+- This project is standalone. Do not reference or depend on tb-digital-dev or any other workspace.
+- All code, assets, and generated files live under Desktop/TodoToday (or the repo root if this repo is TodoToday only).
+- Use componentized React; keep UI and storage concerns separate.
+- Persistence is JSON via Electron IPC; no backend server.
+- When adding features (e.g. search), preserve unique task IDs and existing data shape for compatibility.

@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(osascript -e 'tell application \"System Events\" to tell process \"Electron\" to get name of every window')",
+      "Bash(screencapture -x /tmp/todotoday_screenshot.png)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/**)",
+      "Bash(curl -sv http://localhost:9222/json)",
+      "Bash(nohup npx electron . --remote-debugging-port=9222)",
+      "Bash(disown)",
+      "Bash(curl -s http://localhost:9222/json)",
+      "Bash(pkill -f \"node_modules/electron/dist/Electron.app\")",
+      "Bash(nohup npx electron --remote-debugging-port=9222 .)",
+      "Bash(pkill -f \"node_modules/electron\")",
+      "Bash(node -e ' *)",
+      "Bash(xattr /Users/Crisafulli/Documents/TodoToday/node_modules/app-builder-bin/mac/app-builder_amd64)",
+      "Bash(/Users/Crisafulli/Documents/TodoToday/node_modules/app-builder-bin/mac/app-builder_amd64 --version)",
+      "Bash(rm -f /tmp/todotoday_run.log /tmp/todotoday_electron.log /tmp/todotoday_screenshot.png 2>/dev/null; echo done)",
+      "Bash(xattr -l /Users/Crisafulli/Documents/TodoToday/node_modules/electron/dist/Electron.app)",
+      "Bash(xattr -cr /Users/Crisafulli/Documents/TodoToday/node_modules/electron/dist/Electron.app)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(env)",
+      "Bash(env -u ELECTRON_RUN_AS_NODE nohup npx electron .)",
+      "Bash(env -u ELECTRON_RUN_AS_NODE nohup npx electron --remote-debugging-port=9222 .)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\([{'title':x.get\\('title'\\),'url':x.get\\('url'\\),'type':x.get\\('type'\\)} for x in d]\\)\")"
+    ],
+    "additionalDirectories": [
+      "/private/tmp"
+    ]
+  }
+}

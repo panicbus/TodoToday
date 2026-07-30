@@ -1,0 +1,179 @@
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.task-item:hover {
+  border-color: var(--text-muted);
+  background: var(--bg-hover);
+}
+
+.task-item-check {
+  order: -1;
+  width: 20px;
+  height: 20px;
+  margin-top: 3px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.task-item-check:hover {
+  border-color: var(--accent);
+}
+
+.task-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-item-title {
+  display: block;
+  font-size: 1.1875rem;
+  color: var(--text);
+  cursor: text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-item-notes-snippet {
+  margin: 4px 0 0;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  color: var(--text);
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-item-accordion {
+  margin-top: 10px;
+  padding-top: 0;
+  border-top: none;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.task-item-accordion.open {
+  max-height: 280px;
+}
+
+.task-item-accordion.open-snippet {
+  max-height: var(--snippet-height, 2rem);
+}
+
+.task-item-accordion-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-item-accordion-content {
+  display: contents;
+}
+
+.task-item-accordion-snippet-wrap {
+  flex-shrink: 0;
+  /* Match textarea content box: left padding 10px + border 1px */
+  padding-left: 11px;
+  padding-right: 11px;
+}
+
+.task-item-notes-field {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.task-item-notes-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(124, 110, 246, 0.2);
+}
+
+.task-item-notes-save {
+  align-self: flex-end;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.task-item-notes-save:hover {
+  opacity: 0.9;
+}
+
+.task-item-arrow {
+  width: 1.25rem;
+  height: 1.25rem;
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  margin-top: -2px;
+}
+
+.task-item-arrow:hover {
+  color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.task-item-arrow-icon {
+  display: inline-block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1;
+  transition: transform 0.25s ease;
+  transform: rotate(-90deg); /* closed: points left */
+}
+
+.task-item-arrow.open .task-item-arrow-icon {
+  transform: rotate(-180deg); /* open: points down (90° counterclockwise from left) */
+}
+
+.task-item-input {
+  width: 100%;
+  padding: 2px 4px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1.1875rem;
+}
+
+.task-item-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(124, 110, 246, 0.25);
+}

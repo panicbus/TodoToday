@@ -1,0 +1,74 @@
+.app {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-sidebar-with-undo {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.undo-toast {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 8px;
+  padding: 10px 12px;
+  background: var(--bg-panel);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  color: var(--danger);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  animation: undo-toast-rise 0.3s ease forwards;
+}
+
+.undo-toast:hover {
+  color: #f09090;
+}
+
+.undo-toast-leave {
+  animation: undo-toast-descend 0.3s ease forwards;
+}
+
+@keyframes undo-toast-rise {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes undo-toast-descend {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.app-sidebar-resize {
+  width: 6px;
+  min-width: 6px;
+  background: var(--border);
+  cursor: col-resize;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.app-sidebar-resize:hover {
+  background: var(--accent);
+}

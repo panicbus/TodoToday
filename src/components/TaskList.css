@@ -1,0 +1,27 @@
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.task-list-drop-line {
+  list-style: none;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-top: 2px solid var(--accent);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.task-list-item {
+  margin-bottom: 4px;
+}
+
+.task-list-item.dragging {
+  opacity: 0.5;
+}

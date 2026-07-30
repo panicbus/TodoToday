@@ -1,0 +1,249 @@
+.sidebar {
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.sidebar-head {
+  padding: 20px 16px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-title-emoji {
+  font-size: 1.25rem;
+}
+
+.sidebar-nav {
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  font-size: 1.1875rem;
+  text-align: left;
+  width: 100%;
+  transition: background 0.15s;
+}
+
+.sidebar-item:hover {
+  background: var(--bg-hover);
+}
+
+.sidebar-item.active {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+.sidebar-item-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.sidebar-item-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-edit-input {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 6px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: inherit;
+}
+
+.sidebar-edit-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(124, 110, 246, 0.3);
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0 8px;
+}
+
+.sidebar-lists-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px 6px 2px;
+  gap: 8px;
+}
+
+.sidebar-section-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.sidebar-add-btn {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  font-size: 1.375rem;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+.sidebar-add-btn:hover {
+  color: var(--accent);
+  background: rgba(124, 110, 246, 0.2);
+}
+
+.sidebar-add-error-wrap {
+  margin: 6px 12px 8px;
+  position: relative;
+  padding-right: 28px;
+  font-size: 1.0625rem;
+  color: var(--danger);
+  background: rgba(224, 124, 124, 0.12);
+  border-radius: 6px;
+}
+
+.sidebar-add-error {
+  margin: 0;
+  padding: 8px 10px;
+  font-size: 1.0625rem;
+  color: var(--danger);
+}
+
+.sidebar-add-error-close {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--danger);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sidebar-add-error-close:hover {
+  background: rgba(224, 124, 124, 0.25);
+}
+
+.sidebar-drop-line {
+  height: 0;
+  margin: 2px 8px;
+  border: none;
+  border-top: 2px solid var(--accent);
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.sidebar-item-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--radius);
+  position: relative;
+  cursor: grab;
+}
+
+.sidebar-item-wrap:active {
+  cursor: grabbing;
+}
+
+.sidebar-item-wrap.sidebar-item-dragging {
+  opacity: 0.5;
+}
+
+.sidebar-item-drag-handle {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  padding: 0 2px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.sidebar-item-wrap:hover .sidebar-delete-btn {
+  opacity: 1;
+}
+
+.sidebar-item-wrap.active .sidebar-item {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+.sidebar-item-wrap .sidebar-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar-delete-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.125rem;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+
+.sidebar-delete-btn:hover {
+  color: var(--danger);
+  background: rgba(224, 124, 124, 0.15);
+  opacity: 1;
+}
+
+/* Task drop zones: Inbox and list rows when dragging a task from main area */
+.sidebar-inbox-drop {
+  border-radius: var(--radius);
+  margin: 0 2px;
+}
+
+.sidebar-drop-target {
+  background: rgba(124, 110, 246, 0.15);
+  box-shadow: 0 0 0 2px rgba(124, 110, 246, 0.4);
+  border-radius: var(--radius);
+}
