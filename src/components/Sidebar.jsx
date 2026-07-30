@@ -29,9 +29,27 @@ export function Sidebar({
   const [draggedIndex, setDraggedIndex] = useState(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
   const [taskDropTargetId, setTaskDropTargetId] = useState(null);
+  const [listsScrolling, setListsScrolling] = useState(false);
   const listEditInputRef = useRef(null);
+  const scrollIdleTimerRef = useRef(null);
 
   const isTaskDrag = (e) => e.dataTransfer.types.includes(TASK_MOVE_TYPE);
+
+  // Show the lists scrollbar only while scrolling, hiding it 1s after it stops.
+  const handleListsScroll = () => {
+    setListsScrolling(true);
+    if (scrollIdleTimerRef.current) clearTimeout(scrollIdleTimerRef.current);
+    scrollIdleTimerRef.current = setTimeout(() => {
+      setListsScrolling(false);
+      scrollIdleTimerRef.current = null;
+    }, 1000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (scrollIdleTimerRef.current) clearTimeout(scrollIdleTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (!listIdToEdit) return;
@@ -161,6 +179,7 @@ export function Sidebar({
         <h1 className="sidebar-title">TodoToday <span className="sidebar-title-emoji" aria-hidden>🧘</span></h1>
       </div>
       <nav className="sidebar-nav">
+        <div className="sidebar-nav-pinned">
         <div
           className={`sidebar-inbox-drop ${taskDropTargetId === INBOX_ID ? 'sidebar-drop-target' : ''}`}
           onDragOver={handleInboxDragOver}
@@ -207,6 +226,11 @@ export function Sidebar({
             +
           </button>
         </div>
+        </div>
+        <div
+          className={`sidebar-lists ${listsScrolling ? 'is-scrolling' : ''}`}
+          onScroll={handleListsScroll}
+        >
         {activeListIds.map((id, index) => {
           const name = listNames[id] || id;
           return (
@@ -263,6 +287,7 @@ export function Sidebar({
             </Fragment>
           );
         })}
+        </div>
       </nav>
     </aside>
   );

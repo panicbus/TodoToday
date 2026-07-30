@@ -3,12 +3,16 @@
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
+  /* Fill the column-flex wrapper and allow inner panes to scroll instead of
+     overflowing past the bottom of the window. */
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .sidebar-head {
   padding: 20px 16px 12px;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 .sidebar-title {
@@ -33,7 +37,51 @@
   gap: 2px;
   flex: 1;
   min-height: 0;
+}
+
+/* Inbox + Lists header stay pinned; only the list rows scroll. */
+.sidebar-nav-pinned {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.sidebar-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 4px;
+}
+
+/* Overlay-style scrollbar: the gutter is always reserved so fading the thumb
+   in never shifts the list rows, but the thumb is only visible while scrolling
+   (see the is-scrolling class, dropped ~1s after scrolling stops). */
+.sidebar-lists::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar-lists::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-lists::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+  transition: background 0.35s ease;
+}
+
+.sidebar-lists.is-scrolling::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
+  transition: background 0.12s ease;
+}
+
+.sidebar-lists.is-scrolling::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .sidebar-item {

@@ -205,10 +205,19 @@ export default function App() {
   }, [handleExternalChange]);
 
   const persistTasks = useCallback(async (id, tasks) => {
-    const data = id === INBOX_ID ? { tasks } : { ...listMeta, name: listMeta.name, tasks };
-    await saveListData(id, data);
+    // Update state before awaiting: TaskArea derives every mutation from the
+    // tasks prop, so a gap here lets a second quick interaction compute from
+    // the pre-mutation array and undo the first one.
     setListMeta((prev) => ({ ...prev, tasks }));
-  }, [listMeta]);
+    if (id === INBOX_ID) {
+      await writeInbox({ tasks });
+      return;
+    }
+    // Resolve the name from state rather than re-reading the file: a
+    // read-modify-write would clobber a rename landing between the two.
+    const name = listNames[id] || listMeta.name || getListKey(getListIndexFromId(id));
+    await saveListData(id, { name, tasks });
+  }, [listNames, listMeta.name]);
 
   const persistCompleted = useCallback(async (next) => {
     await writeCompleted(next);
@@ -273,9 +282,7 @@ export default function App() {
       const nextTasks = [...listMeta.tasks, { id: task.id, title: task.title, notes: task.notes, order: task.order ?? listMeta.tasks.length }]
         .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
         .map((t, i) => ({ ...t, order: i }));
-      setListMeta((prev) => ({ ...prev, tasks: nextTasks }));
-      const data = listId === INBOX_ID ? { tasks: nextTasks } : { ...listMeta, name: listMeta.name, tasks: nextTasks };
-      await saveListData(listId, data);
+      await persistTasks(listId, nextTasks);
     } else {
       const data = await loadListData(listId);
       if (data) {
@@ -285,7 +292,7 @@ export default function App() {
         await saveListData(listId, { ...data, tasks: nextTasks });
       }
     }
-  }, [undoToast, completed, currentListId, listMeta]);
+  }, [undoToast, completed, currentListId, listMeta, persistTasks]);
 
   const handleSidebarResize = useCallback((e) => {
     const startX = e.clientX;
@@ -324,6 +331,12 @@ export default function App() {
           onSelect={switchList}
           onRename={(id, name) => {
             setListNames((prev) => ({ ...prev, [id]: name }));
+            // Inbox is excluded: its rename is never persisted and
+            // loadCurrentList hard-codes 'Inbox', so mirroring it here would
+            // show a phantom name in the header until the next reload.
+            if (id !== INBOX_ID && id === currentListId) {
+              setListMeta((prev) => ({ ...prev, name }));
+            }
           }}
           onAddList={handleAddList}
           onDeleteList={handleDeleteList}

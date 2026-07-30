@@ -12,11 +12,11 @@
   overflow: hidden;
 }
 
+/* In flow rather than absolute: the sidebar now fills the wrapper's full
+   height, so an overlaid toast would cover the last list row and swallow its
+   clicks for the 3s it is visible. */
 .undo-toast {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  flex-shrink: 0;
   margin: 8px;
   padding: 10px 12px;
   background: var(--bg-panel);

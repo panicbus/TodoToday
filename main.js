@@ -1,8 +1,13 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 const isDev = process.env.ELECTRON_LOAD_VITE === '1';
+
+// Must be set before 'ready' to reach the menu bar and userData path. Note this
+// does not change the Dock tooltip when running unpackaged — that comes from
+// the Electron.app bundle itself; only a packaged build fixes that.
+app.setName('TodoToday');
 
 // Storage always lives inside this project folder, regardless of whether
 // the app is running from source or as a packaged build launched from
@@ -93,7 +98,18 @@ function createWindow() {
   return win;
 }
 
+// A packaged build takes its Dock icon from build.mac.icon in package.json, but
+// running from source shows Electron's own icon unless we set it at runtime.
+function setDockIcon() {
+  if (process.platform !== 'darwin' || !app.dock) return;
+  const iconPath = path.join(__dirname, 'assets', 'icons', 'icon.png');
+  if (!fs.existsSync(iconPath)) return;
+  const image = nativeImage.createFromPath(iconPath);
+  if (!image.isEmpty()) app.dock.setIcon(image);
+}
+
 app.whenReady().then(() => {
+  setDockIcon();
   createWindow();
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

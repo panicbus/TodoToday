@@ -1,6 +1,7 @@
 {
   "name": "todotoday",
-  "version": "1.0.0",
+  "productName": "TodoToday",
+  "version": "1.1.0",
   "description": "A simple, beautiful desktop todo list app",
   "main": "main.js",
   "scripts": {
@@ -10,8 +11,8 @@
     "preview": "vite preview",
     "electron": "electron .",
     "app": "vite build && electron .",
-    "dist": "npm run build && electron-builder --mac",
-    "dist:dir": "npm run build && electron-builder --mac --dir"
+    "dist": "npm run build && electron-builder --mac --arm64 -c.directories.output=\"$HOME/Library/Caches/todotoday-build\"",
+    "dist:dir": "npm run build && electron-builder --mac --dir --arm64 -c.directories.output=\"$HOME/Library/Caches/todotoday-build\""
   },
   "author": "",
   "license": "MIT",
@@ -20,12 +21,14 @@
     "productName": "TodoToday",
     "mac": {
       "category": "public.app-category.productivity",
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "assets/icons/icon.icns"
     },
     "files": [
       "dist/**/*",
       "main.js",
-      "preload.js"
+      "preload.js",
+      "assets/icons/icon.png"
     ],
     "directories": {
       "output": "release"
