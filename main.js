@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, nativeImage } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -13,16 +13,31 @@ app.setName('TodoToday');
 // the app is running from source or as a packaged build launched from
 // elsewhere (e.g. an app.asar bundle, where __dirname would otherwise
 // point inside the bundle instead of this folder).
-const PROJECT_DIR = '/Users/Crisafulli/Documents/TodoToday';
+const PROJECT_DIR = '/Users/Crisafulli/Developer/TodoToday';
 
 function getDataDir() {
   return path.join(PROJECT_DIR, 'data');
 }
 
+// Creates data/ on first run, but never PROJECT_DIR itself: if the project
+// folder is missing (moved or renamed), silently recreating it would start a
+// fresh, empty database while the real one sits somewhere else.
 function ensureDataDir() {
+  if (!fs.existsSync(PROJECT_DIR)) {
+    throw new Error(`TodoToday project folder not found: ${PROJECT_DIR}`);
+  }
   const dir = getDataDir();
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir);
   return dir;
+}
+
+function showMissingProjectError() {
+  dialog.showErrorBox(
+    'TodoToday data folder not found',
+    `Expected the project at:\n${PROJECT_DIR}\n\n` +
+      'If the folder was moved, update PROJECT_DIR in main.js and rebuild. ' +
+      'Nothing will be saved until then.'
+  );
 }
 
 function getFilePath(name) {
@@ -53,8 +68,7 @@ let lastWriteTime = 0;
 const WRITE_DEBOUNCE_MS = 600;
 
 function setupFileWatcher(win) {
-  const dir = getDataDir();
-  if (!fs.existsSync(dir)) return;
+  const dir = ensureDataDir();
   if (watcher) {
     try { watcher.close(); } catch (_) {}
   }
@@ -109,6 +123,11 @@ function setDockIcon() {
 }
 
 app.whenReady().then(() => {
+  if (!fs.existsSync(PROJECT_DIR)) {
+    showMissingProjectError();
+    app.quit();
+    return;
+  }
   setDockIcon();
   createWindow();
   app.on('activate', () => {
@@ -126,8 +145,19 @@ app.on('window-all-closed', () => {
 
 // IPC: read/write data
 ipcMain.handle('storage:read', (_, name) => readJSON(name, null));
+// The folder can also disappear while the app is running; warn once rather
+// than on every write, then let the write reject.
+let warnedMissingProject = false;
 ipcMain.handle('storage:write', (_, name, data) => {
-  writeJSON(name, data);
+  try {
+    writeJSON(name, data);
+  } catch (e) {
+    if (!warnedMissingProject && !fs.existsSync(PROJECT_DIR)) {
+      warnedMissingProject = true;
+      showMissingProjectError();
+    }
+    throw e;
+  }
   return true;
 });
 ipcMain.handle('storage:getDataPath', () => getDataDir());

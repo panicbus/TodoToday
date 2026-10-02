@@ -19,10 +19,10 @@ A simple, beautiful desktop todo list app (in the vein of Todoist). Built with E
 
 ## Setup and run
 
-All project files live under `Documents/TodoToday`. No dependencies on any other project.
+All project files live under `Developer/TodoToday`. No dependencies on any other project.
 
 ```bash
-cd ~/Documents/TodoToday
+cd ~/Developer/TodoToday
 npm install
 ```
 
@@ -60,7 +60,7 @@ npm run app
 To create a **TodoToday.app** you can double-click and keep in your Dock or Applications:
 
 ```bash
-cd ~/Documents/TodoToday
+cd ~/Developer/TodoToday
 npm install
 npm run dist
 ```
@@ -69,7 +69,7 @@ The app and a **TodoToday-1.0.0.dmg** installer are created in the `release/` fo
 
 - **Unpacked .app only** (faster build, no DMG): `npm run dist:dir` → `release/mac-arm64/TodoToday.app` (or `mac` on Intel).
 
-Data always lives in `Documents/TodoToday/data/` on this machine — whether you run the app from source or as the packaged `.app`/DMG. The data path is hardcoded to this project folder in `main.js`, so the app is tied to this specific folder on this machine (it is not a portable/relocatable installer).
+Data always lives in `Developer/TodoToday/data/` on this machine — whether you run the app from source or as the packaged `.app`/DMG. The data path is hardcoded to this project folder in `main.js`, so the app is tied to this specific folder on this machine (it is not a portable/relocatable installer).
 
 ## Project layout
 
@@ -80,7 +80,7 @@ Data always lives in `Documents/TodoToday/data/` on this machine — whether you
   - `components/` – Sidebar, TaskArea, TaskList, TaskItem, TaskInput, CompletedSection, ExternalChangePrompt
   - `services/storage.js` – Read/write and external-change API
 - `assets/images/` – Place your image assets here
-- **Always:** Data is stored in the `data/` folder inside this project (`Documents/TodoToday/data/`), whether running from source or as the packaged `.app`. The `data/` folder is in `.gitignore` so your tasks are not committed.
+- **Always:** Data is stored in the `data/` folder inside this project (`Developer/TodoToday/data/`), whether running from source or as the packaged `.app`. The `data/` folder is in `.gitignore` so your tasks are not committed.
 
 ## Future
 

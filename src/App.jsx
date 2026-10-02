@@ -137,7 +137,7 @@ export default function App() {
     const nextNum = newListNumbers.length === 0 ? 1 : Math.max(...newListNumbers) + 1;
     const name = nextNum === 1 ? 'New List' : `New List ${nextNum}`;
     await writeList(nextIndex, { name, tasks: [] });
-    const newOrder = [...listsOrder, id];
+    const newOrder = [id, ...listsOrder];
     setListsOrder(newOrder);
     await writeConfig({ listsOrder: newOrder });
     setListNames((prev) => ({ ...prev, [id]: name }));

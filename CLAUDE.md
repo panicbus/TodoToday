@@ -4,9 +4,10 @@ Electron + React + Vite desktop todo app. Renderer in `src/`, Electron main proc
 
 ## Storage
 
-`main.js` hardcodes the data directory to `/Users/Crisafulli/Documents/TodoToday/data` (`PROJECT_DIR`), deliberately — a packaged build launched from `/Applications` would otherwise resolve `__dirname` inside `app.asar`. Consequences:
+`main.js` hardcodes the data directory to `/Users/Crisafulli/Developer/TodoToday/data` (`PROJECT_DIR`), deliberately — a packaged build launched from `/Applications` would otherwise resolve `__dirname` inside `app.asar`. Consequences:
 
 - **`data/` holds the user's real todo content.** It's gitignored and must never be committed.
+- **Moving the repo breaks storage until `PROJECT_DIR` is updated and the app rebuilt.** If the folder is missing, the app shows an error and quits (or refuses writes, if moved while running) rather than recreating it empty — quit the app before moving the repo.
 - **Two running instances share those JSON files** and will fight over them via the `fs.watch` external-change listener. Quit one before starting another.
 
 ## Versioning
